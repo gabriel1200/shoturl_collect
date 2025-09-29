@@ -129,10 +129,18 @@ def merge_with_uuid_data(shot_data_df, backup_file_path='../data_backup.csv'):
     # Generate video URLs
     print("Generating video URLs...")
     def generate_video_url(row):
-        if pd.isna(row['uuid']) or row['uuid'] == 'NO_VIDEO':
-            return None
-        return f"https://videos.nba.com/nba/pbp/media/{int(row['year'])}/{int(row['month'])}/{int(row['day'])}/{row['api_game_id']}/{int(row['GAME_EVENT_ID'])}/{row['uuid']}_1280x720.mp4"
-    
+            if pd.isna(row['uuid']) or row['uuid'] == 'NO_VIDEO':
+                return None
+            
+            year = str(int(row['year']))
+            month = str(int(row['month'])).zfill(2)  # zero-fill month
+            day = str(int(row['day'])).zfill(2)      # zero-fill day
+            
+            return (
+                f"https://videos.nba.com/nba/pbp/media/"
+                f"{year}/{month}/{day}/00{int(row['GAME_ID'])}/"
+                f"{int(row['GAME_EVENT_ID'])}/{row['uuid']}_1280x720.mp4"
+            )
     merged_df['video_url'] = merged_df.apply(generate_video_url, axis=1)
     
     # Report merge statistics
