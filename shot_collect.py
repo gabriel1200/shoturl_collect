@@ -53,7 +53,7 @@ def load_all_shot_data_for_year(year, base_path='../../shot_data/team'):
     return pd.concat(all_shot_data, ignore_index=True)
 
 
-def load_all_shot_data(years=range(2014, 2026), base_path='../shot_data/team'):
+def load_all_shot_data(years=range(2025, 2027), base_path='../shot_data/team'):
     """
     Loads shot data for all teams across multiple years (2014-2025 by default).
 
