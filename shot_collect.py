@@ -100,7 +100,7 @@ def merge_with_uuid_data(shot_data_df, backup_file_path='../data_backup.csv'):
     """
     print("Loading UUID backup data...")
     backup_df = pd.read_csv(backup_file_path)
-    new_df=pd.read_csv('../2025.csv')
+    new_df=pd.read_csv('formatted_videos.csv')
     backup_df=pd.concat([backup_df,new_df])
     
     backup_df.drop_duplicates(subset=['game_id','action_number'],inplace=True)
