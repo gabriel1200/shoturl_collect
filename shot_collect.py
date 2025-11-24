@@ -90,18 +90,29 @@ def load_all_shot_data(years=range(2025, 2027), base_path='../shot_data/team'):
 def merge_with_uuid_data(shot_data_df, backup_file_path='../data_backup.csv'):
     """
     Merges the shot data with UUID data from the backup file and generates video URLs.
-    
-    Args:
-        shot_data_df (pd.DataFrame): The loaded shot data
-        backup_file_path (str): Path to the data_backup.csv file
-    
-    Returns:
-        pd.DataFrame: Shot data merged with UUID information and video URLs
     """
     print("Loading UUID backup data...")
     backup_df = pd.read_csv(backup_file_path)
-    new_df=pd.read_csv('formatted_videos.csv')
-    backup_df=pd.concat([backup_df,new_df])
+    new_df = pd.read_csv('formatted_videos.csv')
+    
+    # --- CHANGE STARTS HERE ---
+    # Load the 2025 specific backup
+    fix_2025_df = pd.read_csv('../formatted_videos_backup.csv')
+    print(fix_2025_df.columns)
+    print(len(fix_2025_df))
+    print(fix_2025_df.head())
+    print(backup_df.columns)
+    
+    # Add the fix file to the concat list
+    
+    print(len(backup_df))
+    print('pre update')
+    backup_df = pd.concat([backup_df, new_df, fix_2025_df])
+    print('post update')
+    print(len(backup_df))
+    # --- CHANGE ENDS HERE ---
+ 
+    # ... rest of the function remains the same
     
     backup_df.drop_duplicates(subset=['game_id','action_number'],inplace=True)
     print(backup_df.tail())
