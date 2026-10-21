@@ -1,3 +1,7 @@
+import os, datetime as _dt
+_today = _dt.date.today()
+SEASON_YEAR = int(os.environ.get("NBA_SEASON_YEAR") or _today.year + (_today.month >= 10))  # end year: 2027 = 2026-27 (see ~/basketball/season.sh)
+PLAYOFFS = os.environ.get("NBA_PLAYOFFS") == "1"
 import pandas as pd
 import os
 
@@ -53,7 +57,7 @@ def load_all_shot_data_for_year(year, base_path='../../shot_data/team'):
     return pd.concat(all_shot_data, ignore_index=True)
 
 
-def load_all_shot_data(years=range(2026, 2027), base_path='../shot_data/team'):
+def load_all_shot_data(years=range(SEASON_YEAR, SEASON_YEAR + 1), base_path='../shot_data/team'):
     """
     Loads shot data for all teams across multiple years (2014-2025 by default).
 
